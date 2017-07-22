@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import OpenApi from '../../modules/api';
 
 class Main extends Component {
 	constructor () {
