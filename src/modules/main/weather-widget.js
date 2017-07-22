@@ -27,21 +27,23 @@ class WeatherWidget extends Component {
 		const weatherDesc = this.props.description.map((desc) => {return desc.main}).join(", ");
 		const colorClass = this._tempClass(this.props.meta.temp);
 		return (
-			<div id={`widget-${this.props.id}`} className={`m-weather-widget ${colorClass}`}>
-				<button onClick={this._handleDelete.bind(this)}>X</button>
-				<h2>{this.props.name}</h2>
-				<div className="m-weather-widget_weather-desc">
-					{weatherDesc}
-				</div>
-				<div className="m-weather-widget_meta-container">
-					<div className="m-weather-widget_meta">
-						<p>Current Temp: {this.props.meta.temp}</p>
-						<p>High: {this.props.meta.temp_max}</p>
-						<p>Low: {this.props.meta.temp_min}</p>
+			<div className="m-weather-widget_container">
+				<div id={`widget-${this.props.id}`} className={`m-weather-widget ${colorClass}`}>
+					<button className="m-btn_delete" onClick={this._handleDelete.bind(this)}>X</button>
+					<h2>{this.props.name}</h2>
+					<div className="m-weather-widget_weather-desc">
+						{weatherDesc}
 					</div>
-					<div className="m-weather-widget_meta">
-						<p>Humidity: {this.props.meta.humidity}</p>
-						<p>Pressure: {this.props.meta.pressure}</p>
+					<div className="m-weather-widget_meta-container">
+						<div className="m-weather-widget_meta">
+							<p className='m-weather-widget_meta-current-temp'>Temp: {this.props.meta.temp}</p>
+							<p>High: {this.props.meta.temp_max}</p>
+							<p>Low: {this.props.meta.temp_min}</p>
+						</div>
+						<div className="m-weather-widget_meta">
+							<p>Humidity: {this.props.meta.humidity}</p>
+							<p>Pressure: {this.props.meta.pressure}</p>
+						</div>
 					</div>
 				</div>
 			</div>

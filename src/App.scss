@@ -1,6 +1,13 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans|Roboto');
 @import './sass/basic-reset.scss';
 
-html,body {color:#fff;}
+* {box-sizing:border-box;}
+html,body {
+  font-family: 'Open Sans', sans-serif;
+  color:#fff;
+}
+
+h1,h2,h3,h4,h5,h6 {font-family: 'Roboto', sans-serif;}
 
 .m-app_content {
   padding:40px;
@@ -23,17 +30,93 @@ html,body {color:#fff;}
   }
 }
 
+.m-main {
+  &_widgets {
+    margin:10px -10px;
+    overflow:hidden;
+  }
+}
+
+.m-weather-widget {
+  display:block;
+  position:relative;
+  padding:20px 30px;
+  text-align:left;
+  margin:10px 0;
+
+  &_container {
+    overflow:hidden;
+    width:33.3333%;
+    padding:0 10px;
+    float:left;
+  }
+
+  &_weather-desc {float:right;}
+  &_meta-container {display:block;overflow:hidden;margin-top:10px;}
+  &_meta {
+    width:50%;
+    float:left;
+    font-size:0.9em;
+    font-style:italic;
+    
+    &-current-temp {font-style:normal;font-weight:bold;}
+  }
+
+  h2 {display:inline-block;font-size:1.2em;font-weight:bold;}
+}
+
+.m-btn_delete {
+  position:absolute;
+  top:0;right:0;
+  height:25px;width:25px;
+  line-height:25px;
+  text-align:center;
+  background-color:#222;
+  opacity:0.6;
+  color:#fff;
+  font-weight:bold;
+  border:0;
+  transition:opacity 250ms ease-in;
+}
+.m-btn_delete:hover {opacity:1;}
+
 .is-temp {
-  &_hot {background-color:#FF0000;}
-  &_very-warm {background-color:#CC0033;}
-  &_warm {background-color:#990066;}
-  &_cool {background-color:#660099;}
-  &_cold {background-color:#3200CC;}
-  &_very-cold {background-color:#0000FF;}
+  &_hot {
+    background-color:rgb(255,0,0);
+    background-color:rgba(255,0,0,0.6);
+  }
+  &_very-warm {
+    background-color:rgb(204,0,51);
+    background-color:rgba(204,0,51,0.6);
+  }
+  &_warm {
+    background-color:rgb(153,0,102);
+    background-color:rgba(153,0,102,0.6);
+  }
+  &_cool {
+    background-color:rgb(102,0,153);
+    background-color:rgba(102,0,153,0.6);
+  }
+  &_cold {
+    background-color:rgb(50,0,204);
+    background-color:rgba(50,0,204,0.6);
+  }
+  &_very-cold {
+    background-color:rgb(0,0,255);
+    background-color:rgba(0,0,255,0.6);
+  }
 }
 
 
 @keyframes App-img-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+@media screen and (max-width: 992px) {
+  .m-weather-widge_container {width:50%;}
+}
+
+@media screen and (max-width: 767px) {
+  .m-weather-widget_container {width:100%;}
 }
