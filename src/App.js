@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
+import Main from './containers/main/main';
 import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+      <div className="m-app">
+        <header className="m-app_header">
+          <img src={logo} className="m-app_logo" alt="logo" />
+          <h1>Winston Zirjacks for Brightidea: React Demo</h1>
+        </header>
+        <main className="m-app_content">
+          <Main />
+        </main>
       </div>
     );
   }
