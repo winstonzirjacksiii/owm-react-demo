@@ -29,7 +29,7 @@ class Main extends Component {
 	}
 
 	deleteCity(id) {
-		const updatedCities = this.state.weatherData.filter((x) => {return x.id == id});
+		const updatedCities = this.state.weatherData.filter((x) => {return x.id !== id});
 
 		this.setState({ weatherData: updatedCities });
 	}
