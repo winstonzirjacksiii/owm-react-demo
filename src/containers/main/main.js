@@ -15,16 +15,15 @@ class Main extends Component {
 	searchForData(query) {
 		OpenApi.get(query).then((data)=>{
 			let updatedCities = this.state.weatherData;
-			const existingCount = updatedCities.reduce((val, x) => {if (data.id === x.id) return val++ }, 0);
+			const existingCount = updatedCities.reduce((val, x) => {if (data.name === x.name) { return val+1 } }, 0);
 
 			if (existingCount === 0) {
 				updatedCities.push(data);
-				console.log("updatedCities", updatedCities);
+				console.log("Added City: ", updatedCities);
 			} else {
 				updatedCities = this.state.weatherData.filter((x) => {return x.id !== data.id});	
 				updatedCities.push(data);
-				console.log("Refreshed City", data.name);	
-
+				console.log("Refreshed City: ", data.name);	
 			}
 
 			this.setState({
