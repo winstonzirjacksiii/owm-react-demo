@@ -5,7 +5,7 @@ class WeatherWidget extends Component {
 		this.props.deleteFunc(this.props.id);
 	}
 	_tempClass(temp) {
-		let bgColor = 'is-';
+		let bgColor = 'is-temp_';
         
         // Set the background colour based on the temperature
         if (temp >= 100) {
@@ -50,15 +50,3 @@ class WeatherWidget extends Component {
 }
 
 export default WeatherWidget;
-
-/*
-data.name == PLACENAME
-data.weather == [ {description: "clear sky", icon: "01n", id: 800, main: "Clear"},.. ]
-data.main == {
-	humidity: 76,
-	pressure: 1015,
-	temp: 287.87,
-	temp_max: 289.15,
-	temp_min: 286.15
-}
-*/

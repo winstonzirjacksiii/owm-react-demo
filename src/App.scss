@@ -1,24 +1,37 @@
 @import './sass/basic-reset.scss';
 
+html,body {color:#fff;}
+
+.m-app_content {
+  padding:40px;
+  background:#444;
+}
+
 .m-app {
   text-align: center;
+
+  &_logo {
+    animation: App-img-spin infinite 20s linear;
+    height: 80px;
+  }
+
+  &_header {
+    background-color: #222;
+    height: 150px;
+    padding: 20px;
+    color: white;
+  }
 }
 
-.m-app_logo {
-  animation: App-img-spin infinite 20s linear;
-  height: 80px;
+.is-temp {
+  &_hot {background-color:#FF0000;}
+  &_very-warm {background-color:#CC0033;}
+  &_warm {background-color:#990066;}
+  &_cool {background-color:#660099;}
+  &_cold {background-color:#3200CC;}
+  &_very-cold {background-color:#0000FF;}
 }
 
-.m-app_header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
-}
-
-.m-app_intro {
-  font-size: large;
-}
 
 @keyframes App-img-spin {
   from { transform: rotate(0deg); }
