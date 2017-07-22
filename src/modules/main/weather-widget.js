@@ -4,10 +4,30 @@ class WeatherWidget extends Component {
 	_handleDelete() {
 		this.props.deleteFunc(this.props.id);
 	}
+	_tempClass(temp) {
+		let bgColor = 'is-';
+        
+        // Set the background colour based on the temperature
+        if (temp >= 100) {
+            bgColor += 'hot';
+        } else if (temp < 100 && temp > 85) {
+            bgColor += 'very-warm';
+        } else if (temp <= 85  && temp > 70) {
+            bgColor += 'warm';
+        } else if (temp <= 70 && temp > 65) {
+            bgColor += 'cool';
+        } else if (temp <= 65 && temp > 50) {
+            bgColor += 'cold';
+        } else if (temp <= 50) {
+        	bgColor += 'very-cold';
+        }
+        return bgColor;
+	}
 	render() {
-		let weatherDesc = this.props.description.map((desc) => {return desc.main}).join(", ");
+		const weatherDesc = this.props.description.map((desc) => {return desc.main}).join(", ");
+		const colorClass = this._tempClass(this.props.meta.temp);
 		return (
-			<div id="widget-{this.props.key}" className="m-weather-widget">
+			<div id={`widget-${this.props.id}`} className={`m-weather-widget ${colorClass}`}>
 				<button onClick={this._handleDelete.bind(this)}>X</button>
 				<h2>{this.props.name}</h2>
 				<div className="m-weather-widget_weather-desc">
