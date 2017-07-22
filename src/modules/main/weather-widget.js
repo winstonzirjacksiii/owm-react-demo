@@ -24,7 +24,14 @@ class WeatherWidget extends Component {
         return bgColor;
 	}
 	render() {
-		const weatherDesc = this.props.description.map((desc) => {return desc.main}).join(", ");
+		const weatherDesc = this.props.description.map((desc, i) => {
+			return (
+				<span key={i}>
+					{desc.main}
+					<img className="m-weather-widget_weather-desc-img" alt={desc.main} src={"//openweathermap.org/img/w/"+desc.icon+".png"}/>
+				</span>
+			);
+		});
 		const colorClass = this._tempClass(this.props.meta.temp);
 		return (
 			<div className="m-weather-widget_container">

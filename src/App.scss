@@ -9,16 +9,11 @@ html,body {
 
 h1,h2,h3,h4,h5,h6 {font-family: 'Roboto', sans-serif;}
 
-.m-app_content {
-  padding:40px;
-  background:#444;
-}
-
 .m-app {
   text-align: center;
 
   &_logo {
-    animation: App-img-spin infinite 20s linear;
+    animation: img-spin infinite 20s linear;
     height: 80px;
   }
 
@@ -27,6 +22,14 @@ h1,h2,h3,h4,h5,h6 {font-family: 'Roboto', sans-serif;}
     height: 150px;
     padding: 20px;
     color: white;
+  }
+
+  &_content {
+    padding:40px;
+    background-color:#444;
+    background-image:url('./img/weather-app-bg.jpg');
+    height: calc(100vh - 150px);
+
   }
 }
 
@@ -49,6 +52,8 @@ h1,h2,h3,h4,h5,h6 {font-family: 'Roboto', sans-serif;}
     width:33.3333%;
     padding:0 10px;
     float:left;
+    transition:all 250ms ease-in;
+    animation: fade-in 1s ease-in;
   }
 
   &_weather-desc {float:right;}
@@ -58,11 +63,32 @@ h1,h2,h3,h4,h5,h6 {font-family: 'Roboto', sans-serif;}
     float:left;
     font-size:0.9em;
     font-style:italic;
+    line-height:1.2em;
     
     &-current-temp {font-style:normal;font-weight:bold;}
   }
+  &_weather-desc {
+    line-height:25px;
+    text-transform:lowercase;
+    font-size:0.75em;
 
-  h2 {display:inline-block;font-size:1.2em;font-weight:bold;}
+    &-img {
+      position:relative;top:8px;
+      display:inline-block;
+      height:25px;width:auto;
+      padding-left:4px;
+    }
+
+    span+span {padding-left:10px;}
+  }
+
+  h2 {
+    display:inline-block;
+    font-size:1.2em;
+    font-weight:bold;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #fff;
+  }
 }
 
 .m-btn_delete {
@@ -72,7 +98,7 @@ h1,h2,h3,h4,h5,h6 {font-family: 'Roboto', sans-serif;}
   line-height:25px;
   text-align:center;
   background-color:#222;
-  opacity:0.6;
+  opacity:0.4;
   color:#fff;
   font-weight:bold;
   border:0;
@@ -108,13 +134,50 @@ h1,h2,h3,h4,h5,h6 {font-family: 'Roboto', sans-serif;}
 }
 
 
-@keyframes App-img-spin {
+@keyframes img-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
 
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes img-wiggle {
+  10%, 90% {
+    transform: rotate(-5deg);
+  }
+  
+  20%, 80% {
+    transform: rotate(10deg);
+  }
+
+  30%, 50%, 70% {
+    transform: rotate(-12deg);
+  }
+
+  40%, 60% {
+    transform: rotate(14deg);
+  }
+}
+
+
+@media screen and (min-width:1025px) {
+  .m-weather-widget {
+    &_container:hover {
+      transform:scale(1.05);
+
+      .m-weather-widget_weather-desc-img {
+        animation: img-wiggle 2s linear;
+      }
+    }
+    
+  }
+}
+
 @media screen and (max-width: 992px) {
-  .m-weather-widge_container {width:50%;}
+  .m-weather-widget_container {width:50%;}
 }
 
 @media screen and (max-width: 767px) {
