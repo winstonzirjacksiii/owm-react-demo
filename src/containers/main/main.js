@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import OpenApi from '../../modules/api';
+import initStore from '../../modules/appStorage';
 import SearchBar from '../../modules/main/search';
 import WeatherWidget from '../../modules/main/weather-widget';
 
@@ -8,7 +9,17 @@ class Main extends Component {
 		super();
 		this.state = {
 			activeQuery: '',
-			weatherData: []
+			weatherData: [],
+		};
+		this.appStore = initStore("owm-react-demo");
+	}
+
+	componentDidMount() {
+		const localData = this.appStore.get();
+		if (localData) {
+			this.setState({
+				weatherData: localData
+			});
 		}
 	}
 
@@ -26,6 +37,8 @@ class Main extends Component {
 				console.log("Refreshed City: ", data.name);	
 			}
 
+			this.appStore.storeData(updatedCities);
+
 			this.setState({
 				weatherData: updatedCities,
 				activeQuery: query
@@ -35,6 +48,7 @@ class Main extends Component {
 
 	deleteCity(id) {
 		const updatedCities = this.state.weatherData.filter((x) => {return x.id !== id});
+		this.appStore.storeData(updatedCities);
 		this.setState({ weatherData: updatedCities });
 	}
 
