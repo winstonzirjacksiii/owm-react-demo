@@ -9,7 +9,7 @@ class App extends Component {
       <div className="m-app">
         <header className="m-app_header">
           <img src={logo} className="m-app_logo" alt="logo" />
-          <h1>Winston Zirjacks for Brightidea: React Demo</h1>
+          <h1>Winston Zirjacks for <b>Brightidea</b>: React Demo</h1>
         </header>
         <main className="m-app_content">
           <Main />
