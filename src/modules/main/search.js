@@ -4,7 +4,7 @@ class SearchBar extends Component {
 	_handleSubmit(event) {
 		event.preventDefault();
 		this.props.queryPlace(this._queryString.value);
-		this._queryString = "";
+		this._queryString.value = "";
 	}
 	
 	render() {
