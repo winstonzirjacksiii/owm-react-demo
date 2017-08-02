@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import OpenApi from '../../modules/api';
-import initStore from '../../modules/appStorage';
+import appStore from '../../modules/appStorage';
 import SearchBar from '../../modules/main/search';
 import WeatherWidget from '../../modules/main/weather-widget';
 
@@ -11,7 +11,7 @@ class Main extends Component {
 			activeQuery: '',
 			weatherData: [],
 		};
-		this.appStore = initStore("owm-react-demo");
+		this.appStore = appStore("owm-react-demo");
 	}
 
 	componentDidMount() {
