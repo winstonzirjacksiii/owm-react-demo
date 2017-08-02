@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { css } from 'aphrodite';
+import { StateStyles } from '../../aphrodite/js-stylesheet';
 
 class WeatherWidget extends Component {
 	_handleDelete() {
@@ -23,6 +25,25 @@ class WeatherWidget extends Component {
         }
         return bgColor;
 	}
+	_tempClassAphro(temp) {
+		let bgColor;
+
+		if (temp >= 100) {
+            bgColor += 'hot';
+        } else if (temp < 100 && temp > 85) {
+            bgColor = 'veryWarm';
+        } else if (temp <= 85  && temp > 70) {
+            bgColor = 'warm';
+        } else if (temp <= 70 && temp > 65) {
+            bgColor = 'cool';
+        } else if (temp <= 65 && temp > 50) {
+            bgColor = 'cold';
+        } else if (temp <= 50) {
+        	bgColor = 'veryCold';
+        }
+
+		return css( StateStyles[bgColor] );
+	}
 	render() {
 		const weatherDesc = this.props.description.map((desc, i) => {
 			return (
@@ -32,7 +53,7 @@ class WeatherWidget extends Component {
 				</span>
 			);
 		});
-		const colorClass = this._tempClass(this.props.meta.temp);
+		const colorClass = this._tempClassAphro(this.props.meta.temp);
 		return (
 			<div className="m-weather-widget_container">
 				<div id={`widget-${this.props.id}`} className={`m-weather-widget ${colorClass}`}>

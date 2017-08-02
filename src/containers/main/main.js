@@ -48,6 +48,18 @@ class Main extends Component {
 
 	deleteCity(id) {
 		const updatedCities = this.state.weatherData.filter((x) => {return x.id !== id});
+		this._saveCitiesList(updatedCities);
+	}
+
+	updateCity(id, data) {
+		const updatedCities = this.state.weatherData.map((x) => {
+			return x.id === id ? data : x; 
+		});
+
+		this._saveCitiesList(updatedCities);
+	}
+
+	_saveCitiesList(updatedCities) {
 		this.appStore.storeData(updatedCities);
 		this.setState({ weatherData: updatedCities });
 	}
