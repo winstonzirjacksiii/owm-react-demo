@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import SearchBar from '../../modules/main/search';
 import WeatherWidget from '../../modules/main/weather-widget';
 import AppStore from '../../modules/appStorage';
-import OpenApi from '../../modules/api';
+import OpenApi from '../../modules/weatherApi';
 
 class Main extends Component {
 	constructor () {
@@ -30,10 +30,6 @@ class Main extends Component {
 			}).catch((error) => {
 				alert(error, " during componentDidMount");
 			});
-
-			// this.setState({
-			// 	weatherData: localData
-			// });
 		}
 	}
 
