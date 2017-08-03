@@ -1,4 +1,4 @@
-const APPSTORE = ((key)=> {
+const APPSTORE = (key) => {
 	const storeKey = key;
 	const storage = window.localStorage;
 
@@ -13,6 +13,6 @@ const APPSTORE = ((key)=> {
 			return stringyData && stringyData !== 'undefined' ? JSON.parse(stringyData) : null
 		}
 	}
-})
+};
 
 export default APPSTORE;

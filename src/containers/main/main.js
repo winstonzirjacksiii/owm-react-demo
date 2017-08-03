@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import OpenApi from '../../modules/api';
-import appStore from '../../modules/appStorage';
 import SearchBar from '../../modules/main/search';
 import WeatherWidget from '../../modules/main/weather-widget';
+import AppStore from '../../modules/appStorage';
+import OpenApi from '../../modules/api';
 
 class Main extends Component {
 	constructor () {
@@ -10,45 +10,78 @@ class Main extends Component {
 		this.state = {
 			activeQuery: '',
 			weatherData: [],
+			cityIds: []
 		};
-		this.appStore = appStore("owm-react-demo");
+		this.appStore = AppStore("owm-react-demo");
 	}
 
 	componentDidMount() {
 		const localData = this.appStore.get();
-		if (localData) {
-			this.setState({
-				weatherData: localData
+		if (localData && localData.length) {
+			OpenApi.getManyWeather(localData).then((data) => {
+				if (parseInt(data.cod, 10) >= 400) { 
+					throw "city(s) not found"; 
+				}
+
+				this.setState({
+					weatherData: data.list,
+					cityIds: localData
+				});
+			}).catch((error) => {
+				alert(error, " during componentDidMount");
 			});
+
+			// this.setState({
+			// 	weatherData: localData
+			// });
 		}
 	}
 
 	searchForData(query) {
-		OpenApi.get(query).then((data)=>{
-			let updatedCities = this.state.weatherData;
-			const existingCount = updatedCities.reduce((val, x) => {if (data.name === x.name) { return val+1 } }, 0);
+		OpenApi.getSingleWeather(query).then((data)=>{
+			let updatedCities = this.state.weatherData,
+				updatedIds = this.state.cityIds;
 
-			if (existingCount === 0) {
-				updatedCities.push(data);
-				console.log("Added City: ", updatedCities);
-			} else {
-				updatedCities = this.state.weatherData.filter((x) => {return x.id !== data.id});	
-				updatedCities.push(data);
+			if (updatedIds.indexOf(data.id) !== -1) {
+				updatedCities = updatedCities.map((x) => {
+					return data.id === x.id ? data : x;
+				});
+
 				console.log("Refreshed City: ", data.name);	
+			} else {
+				updatedIds.push(data.id);
+				updatedCities.push(data);
+
+				console.log("Added City: ", updatedCities);
 			}
 
-			this.appStore.storeData(updatedCities);
+			this.appStore.storeData(updatedIds);
+
+			// const existingCount = updatedCities.reduce((val, x) => {if (data.name === x.name) { return val+1 } }, 0);
+
+			// if (existingCount === 0) {
+			// 	updatedCities.push(data);
+			// 	console.log("Added City: ", updatedCities);
+			// } else {
+			// 	updatedCities = this.state.weatherData.filter((x) => {return x.id !== data.id});	
+			// 	updatedCities.push(data);
+			// 	console.log("Refreshed City: ", data.name);	
+			// }
+			// this.appStore.storeData(updatedCities);
 
 			this.setState({
 				weatherData: updatedCities,
+				cityIds: updatedIds,
 				activeQuery: query
 			});
 		});
 	}
 
 	deleteCity(id) {
-		const updatedCities = this.state.weatherData.filter((x) => {return x.id !== id});
-		this._saveCitiesList(updatedCities);
+		const updatedCities = this.state.weatherData.filter((x) => { return x.id !== id });
+		const updatedIds = this.state.cityIds.filter((listId) => { return listId !== id });
+
+		this._saveCitiesList(updatedIds, updatedCities);
 	}
 
 	updateCity(id, data) {
@@ -56,16 +89,21 @@ class Main extends Component {
 			return x.id === id ? data : x; 
 		});
 
-		this._saveCitiesList(updatedCities);
+		this._saveCitiesList(this.state.cityIds, updatedCities);
 	}
 
-	_saveCitiesList(updatedCities) {
-		this.appStore.storeData(updatedCities);
-		this.setState({ weatherData: updatedCities });
+	_saveCitiesList(updatedIds, updatedCities) {
+		this.appStore.storeData(updatedIds);
+		this.setState({ 
+			cityIds: updatedIds,
+			weatherData: updatedCities 
+		});
 	}
 
 	_renderWeatherWidgets() {
-		return this.state.weatherData.map((x) => {
+		const weatherDatas = Array.isArray(this.state.weatherData) ? this.state.weatherData : [];
+
+		return weatherDatas.map((x) => {
 			return (
 				<WeatherWidget 	key={x.id} 
 								id={x.id} 
@@ -78,7 +116,7 @@ class Main extends Component {
 	}
 
 	render() {
-		const weatherWidgets = this._renderWeatherWidgets(); 
+		const weatherWidgets = this.state.cityIds.length ? this._renderWeatherWidgets() : ""; 
 
 		return (
 			<div>

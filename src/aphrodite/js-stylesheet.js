@@ -2,27 +2,21 @@ import { StyleSheet } from 'aphrodite';
 
 const StateStyles = StyleSheet.create({
     hot: {
-        backgroundColor: 'rgb(255,0,0)',
         backgroundColor: 'rgba(255,0,0,0.6)'
     },
     veryWarm: {
-        backgroundColor: 'rgb(204,0,51)',
         backgroundColor: 'rgba(204,0,51,0.6)'
     },
     warm: {
-        backgroundColor: 'rgb(153,0,102)',
         backgroundColor: 'rgba(153,0,102,0.6)'
     },
     cool: {
-        backgroundColor: 'rgb(102,0,153)',
         backgroundColor: 'rgba(102,0,153,0.6)'
     },
     cold: {
-        backgroundColor: 'rgb(50,0,204)',
         backgroundColor: 'rgba(50,0,204,0.6)'
     },
     veryCold: {
-        backgroundColor: 'rgb(0,0,255)',
         backgroundColor: 'rgba(0,0,255,0.6)'
     }
 });
