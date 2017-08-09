@@ -3,29 +3,34 @@ import { css } from 'aphrodite';
 import { StateStyles } from '../../aphrodite/js-stylesheet';
 
 class WeatherWidget extends Component {
+	componentDidMount() {
+		const interval = setInterval(() => {this._handleUpdate()}, 60000);
+
+		this.setState({
+			interval: interval,
+			isUpdating: false
+		});
+	}
+
+	componentWillUnmount() {
+		clearInterval(this.state.interval);
+	}
+
+	// componentDidUpdate() {
+	// 	this.setState({isUpdating:false});
+	// }
+
 	_handleDelete() {
 		this.props.deleteFunc(this.props.id);
 	}
-	_tempClass(temp) {
-		let bgColor = 'is-temp_';
-        
-        // Set the background colour based on the temperature
-        if (temp >= 100) {
-            bgColor += 'hot';
-        } else if (temp < 100 && temp > 85) {
-            bgColor += 'very-warm';
-        } else if (temp <= 85  && temp > 70) {
-            bgColor += 'warm';
-        } else if (temp <= 70 && temp > 65) {
-            bgColor += 'cool';
-        } else if (temp <= 65 && temp > 50) {
-            bgColor += 'cold';
-        } else if (temp <= 50) {
-        	bgColor += 'very-cold';
-        }
-        return bgColor;
+
+	_handleUpdate() {
+		// this.setState({isUpdating:true});
+		this.props.updateFunc(this.props.id)
 	}
-	_tempClassAphro(temp) {
+
+	_tempClass(temp) {
+		// NOTE: testing out aphrodite here. pls check old revisions for old code if needed
 		let bgColor;
 
 		if (temp >= 100) {
@@ -44,6 +49,7 @@ class WeatherWidget extends Component {
 
 		return css( StateStyles[bgColor] );
 	}
+
 	render() {
 		const weatherDesc = this.props.description.map((desc, i) => {
 			return (
@@ -53,7 +59,7 @@ class WeatherWidget extends Component {
 				</span>
 			);
 		});
-		const colorClass = this._tempClassAphro(this.props.meta.temp);
+		const colorClass = this._tempClass(this.props.meta.temp);
 		return (
 			<div className="m-weather-widget_container">
 				<div id={`widget-${this.props.id}`} className={`m-weather-widget ${colorClass}`}>

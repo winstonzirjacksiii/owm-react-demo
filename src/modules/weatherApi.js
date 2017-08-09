@@ -13,7 +13,7 @@ const APIWRAPPER = (() => {
 
 		    return fetch(baseUrl + units + '&appid=' + apiKey, {
 		        headers: {}
-		    }).then(function(response) {
+		    }).then((response) => {
 		        return response.json();
 		    });
 		},
@@ -32,7 +32,15 @@ const APIWRAPPER = (() => {
 
 		    return fetch(baseUrl + units + '&appid=' + apiKey, {
 		        headers: {}
-		    }).then(function(response) {
+		    }).then((response) => {
+		        return response.json();
+		    });
+		},
+		getWeatherById: (id) => {
+			const baseUrl = rootUrl + manyLookup + id;
+			return fetch(baseUrl + units + '&appid=' + apiKey, {
+		        headers: {}
+		    }).then((response) => {
 		        return response.json();
 		    });
 		}

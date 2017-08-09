@@ -53,18 +53,6 @@ class Main extends Component {
 
 			this.appStore.storeData(updatedIds);
 
-			// const existingCount = updatedCities.reduce((val, x) => {if (data.name === x.name) { return val+1 } }, 0);
-
-			// if (existingCount === 0) {
-			// 	updatedCities.push(data);
-			// 	console.log("Added City: ", updatedCities);
-			// } else {
-			// 	updatedCities = this.state.weatherData.filter((x) => {return x.id !== data.id});	
-			// 	updatedCities.push(data);
-			// 	console.log("Refreshed City: ", data.name);	
-			// }
-			// this.appStore.storeData(updatedCities);
-
 			this.setState({
 				weatherData: updatedCities,
 				cityIds: updatedIds,
@@ -81,10 +69,28 @@ class Main extends Component {
 	}
 
 	updateCity(id, data) {
+		if (data) {
+			this._formatThenUpdate(id, data);
+		} else {
+			OpenApi.getWeatherById(id).then((data) => {
+				if (parseInt(data.cod, 10) >= 400) { 
+					throw "city(s) not found"; 
+				}
+
+				this._formatThenUpdate(id, data.list[0]);
+			}).catch((error) => {
+				alert(error, " during updateCity");
+			});
+		}
+		
+	}
+
+	_formatThenUpdate(id, data) {
 		const updatedCities = this.state.weatherData.map((x) => {
 			return x.id === id ? data : x; 
 		});
 
+		console.log("Updating with this data, ", data);
 		this._saveCitiesList(this.state.cityIds, updatedCities);
 	}
 
@@ -99,14 +105,15 @@ class Main extends Component {
 	_renderWeatherWidgets() {
 		const weatherDatas = Array.isArray(this.state.weatherData) ? this.state.weatherData : [];
 
-		return weatherDatas.map((x) => {
+		return weatherDatas.map((x, i) => {
 			return (
-				<WeatherWidget 	key={x.id} 
+				<WeatherWidget 	key={i} 
 								id={x.id} 
 								name={x.name} 
 								description={x.weather} 
 								meta={x.main} 
-								deleteFunc={this.deleteCity.bind(this)} />
+								deleteFunc={this.deleteCity.bind(this)}
+								updateFunc={this.updateCity.bind(this)} />
 			);
 		});
 	}
